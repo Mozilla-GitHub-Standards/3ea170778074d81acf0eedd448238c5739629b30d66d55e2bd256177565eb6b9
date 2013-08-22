@@ -18,8 +18,7 @@ from utils import (
     get_rand,
     get_prob,
     get_uaid,
-    str_gen,
-    send_http_put)
+    str_gen)
 
 TIMEOUT = 60
 MIN_SLEEP = 0

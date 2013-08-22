@@ -28,23 +28,6 @@ def get_uaid(chan_str=""):
     return uuid.uuid4()
 
 
-def send_http_put(update_path, args='version=123',
-                  ct='application/x-www-form-urlencoded',
-                  exit_on_assert=False):
-    headers = {'Content-Type':ct}
-    ret = None
-    try:
-        r = requests.put(update_path, data=args, headers=headers)
-        ret = r.status_code
-    except Exception as e:
-        raise e
-        if exit_on_assert:
-            import pdb
-            pdb.set_trace()
-            exit('Exception in HTTP PUT: %s' % (e))
-    return ret
-
-
 def comp_dict(ret_data, exp_data):
     """ Util that compares dicts returns list of errors"""
     diff = {"errors": []}
