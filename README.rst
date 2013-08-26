@@ -1,13 +1,20 @@
 Load test for Simplepush servers
 ================================
 
-You can run this by installing Loads (mozilla-services/loads) and running this::
+You can run this by installing **Loads** using the Makefile::
 
-    $ loads-runner load_gen.TestLoad.test_ping
+    $ make build
 
-If you want to run the test on the Loads broker, use the **loads.ini** 
-configuration file::
+If you get any dependency issue, you might need to install
+libraries on your system. Check out http://loads.readthedocs.org/en/latest/installation
 
-    $ loads-runner --config loads.ini 
+Next, you can run a single test against the Push server::
 
-The file will set all the needed options to run the test remotely.
+    $ make test
+
+And once it works, send some real load::
+
+    $ make load
+
+Look at **loads.ini** to tweak the options for **make load**.
+
