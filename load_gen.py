@@ -6,6 +6,7 @@
 import json
 import time
 import random
+import socket
 
 import gevent
 from gevent import monkey
@@ -17,7 +18,13 @@ from wsocket import (WsClient,
                      ChanClient,
                      FuzzClient)
 
-TARGET_SERVER = "ws://ec2-54-244-206-75.us-west-2.compute.amazonaws.com:8080"
+SERVER = 'ec2-54-212-185-211.us-west-2.compute.amazonaws.com'
+# resolve the IP to avoid extra lookups
+data = socket.gethostbyname_ex(SERVER)
+SERVER = data[-1][0]
+
+PORT = 80
+TARGET_SERVER = "ws://%s:%d" % (SERVER, PORT)
 PATCHED = False
 TIMEOUT = 60
 MIN_SLEEP = 5
