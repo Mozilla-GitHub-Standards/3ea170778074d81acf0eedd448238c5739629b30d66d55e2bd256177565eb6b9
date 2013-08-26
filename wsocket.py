@@ -213,7 +213,7 @@ class FuzzClient(WsClient):
     """ Sends mixed messages to socket """
 
     def __init__(self, *args, **kw):
-        super(ChanClient, self).__init__(*args, **kw)
+        super(FuzzClient, self).__init__(*args, **kw)
         self.max_sleep = MAX_SLEEP
         self.max_updates = MAX_UPDATES
 
@@ -238,7 +238,7 @@ class FuzzClient(WsClient):
         self.ping()
 
     def received_message(self, m):
-        super(WsClient, self).received_message(m)
+        super(FuzzClient, self).received_message(m)
         self.data = json.loads(m.data)
         logger.error(self.data)
         time.sleep(self.sleep)
