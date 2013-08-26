@@ -67,7 +67,7 @@ class WsClient(WebSocketClient):
     def run_forever(self, timeout=TIMEOUT):
         # schedule the web socket to close in TIMEOUT seconds
         # if the server does not do it
-        self.closer = gevent.spawn_later(TIMEOUT, self.close)
+        self.closer = gevent.spawn_later(timeout, self.close)
         self.closer.join()
 
     def closed(self, code, reason=None):
