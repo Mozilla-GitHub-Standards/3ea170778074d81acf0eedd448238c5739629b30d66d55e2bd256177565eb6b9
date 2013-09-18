@@ -5,24 +5,20 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 import json
 import time
-import os
-import sys
 import logging
 
 import gevent
 
-from loads.case import TestCase
 from loads.websockets import WebSocketClient
 
 from utils import (
     get_rand,
-    get_prob,
     get_uaid,
     str_gen)
 
 TIMEOUT = 60
-MIN_SLEEP = 0
-MAX_SLEEP = 1
+MIN_SLEEP = 2
+MAX_SLEEP = 3
 MAX_UPDATES = 4
 
 logger = logging.getLogger('WsClient')
@@ -106,7 +102,7 @@ class WsClient(WebSocketClient):
                   % (self.chan, self.version))
 
     def ping(self):
-        self.send('{}')
+        self.send('{"messageType":"ping"}')
 
     def check_response(self, data):
         if "status" in data.keys():
@@ -160,11 +156,12 @@ class HelloClient(WsClient):
         self.max_sleep = MAX_SLEEP
         self.max_updates = MAX_UPDATES
 
-    def proc_data(self):
+    def received_message(self, m):
+        self.data = json.loads(m.data)
+        self.check_response(self.data)
         if "messageType" in self.data:
-            time.sleep(self.sleep)
             if self.data["messageType"] == "hello":
-                self.new_chan()
+                self.close()
 
 
 class ChanClient(WsClient):

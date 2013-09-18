@@ -3,27 +3,26 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-import json
-import time
 import random
 import socket
 
-import gevent
+# import gevent
 from gevent import monkey
 
 from loads.case import TestCase
-from wsocket import (WsClient,
-                     PingClient,
+from wsocket import (PingClient,
                      HelloClient,
                      ChanClient,
                      FuzzClient)
 
-SERVER = 'ec2-54-212-185-211.us-west-2.compute.amazonaws.com'
+
+# SERVER = 'localhost'
+SERVER = 'ec2-54-244-206-75.us-west-2.compute.amazonaws.com'
 # resolve the IP to avoid extra lookups
 data = socket.gethostbyname_ex(SERVER)
 SERVER = data[-1][0]
 
-PORT = 80
+PORT = 8080
 TARGET_SERVER = "ws://%s:%d" % (SERVER, PORT)
 PATCHED = False
 TIMEOUT = 60
@@ -39,8 +38,8 @@ class TestLoad(TestCase):
                         [self.test_hello] * 15 +
                         [self.test_one_chan] * 25 +
                         [self.test_new_chan] * 25 +
-                        [self.test_multi_chan] * 10 +
-                        [self.test_fuzz] * 5)
+                        [self.test_multi_chan] * 14 +
+                        [self.test_fuzz] * 1)
 
         self.choices_long = ([self.test_ping_long] * 20 +
                              [self.test_hello_long] * 15 +
